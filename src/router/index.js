@@ -10,7 +10,6 @@ import authRouter from './modules/auth'
  */
 export const constantRoutes = []
 constantRoutes.push.apply(constantRoutes, authRouter)
-console.log(constantRoutes)
 
 /**
  * 需要根据用户角色动态加载的路由
