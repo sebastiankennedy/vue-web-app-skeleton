@@ -39,7 +39,7 @@
       </van-row>
     </div>
     <div class="auth-login-page-footer">
-      <p>《推广大使经销商协议》</p>
+      <p><router-link to="/auth/notice">《推广大使经销商协议》</router-link></p>
     </div>
   </div>
 </template>

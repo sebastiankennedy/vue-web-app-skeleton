@@ -5,9 +5,10 @@ import { getJsonWebToken, getToken } from './auth'
 
 
 const service = axios.create({
-    baseURL: process.env.APP_URL,
+    baseURL: process.env.VUE_APP_URL,
     timeout: 10000
 })
+console.log(process.env)
 
 // 添加请求拦截器
 service.interceptors.request.use(config => {
@@ -31,6 +32,12 @@ service.interceptors.request.use(config => {
         console.log(error)
     }
 
+    Toast.fail({
+        message: error.message,
+        forbidClick: true,
+        duration: 5000
+    })
+
     return Promise.reject(error)
 })
 
@@ -40,7 +47,7 @@ axios.interceptors.response.use(response => {
     if (process.env.APP_ENV === 'local') {
         console.log(response)
     }
-    
+
     return response
 }, error => {
     // 处理响应错误
