@@ -12,12 +12,10 @@ const service = axios.create({
 // 添加请求拦截器
 service.interceptors.request.use(config => {
     // 发送请求之前逻辑
-    if (store.getters.jsonWebToken) {
-        config.headers['Authorization'] = 'Bearer ' + getJsonWebToken
-    }
-
-    if (store.getters.accessToken) {
-        config.headers['X-ACCESS-Token'] = getToken
+    if (getJsonWebToken()) {
+        config.headers['Authorization'] = 'Bearer ' + getJsonWebToken()
+    } else if (getToken()) {
+        config.headers['X-ACCESS-Token'] = getToken()
     }
 
     if (process.env.VUE_APP_ENV === 'local') {
@@ -50,8 +48,20 @@ service.interceptors.response.use(response => {
         console.log('HTTP 响应之后', response)
     }
 
-    if (response.status === 200) {
+    if (response.status === 200 && response.data.status_code === 0) {
+        if (response.data.message !== 'success') {
+            Toast.success(response.data.message)
+        }
+
         return response.data
+    }
+
+    if (response.status !== 200 || response.data.status_code !== 0) {
+        Toast.fail({
+            message: response.data.message,
+            forbidClick: true,
+            duration: 3000,
+        })
     }
 
     return response
@@ -64,7 +74,7 @@ service.interceptors.response.use(response => {
     Toast.fail({
         message: error.message,
         forbidClick: true,
-        duration: 5000
+        duration: 3000
     })
 
     return Promise.reject(error)

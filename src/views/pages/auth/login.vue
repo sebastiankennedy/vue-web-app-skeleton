@@ -23,7 +23,11 @@
           />
           <div class="auth-login-form-register-and-forget-password">
             <p>忘记密码?</p>
-            <p>暂无账号，去注册</p>
+            <p>
+              暂无账号，去<router-link class="text-blue" to="/auth/register"
+                >注册</router-link
+              >
+            </p>
           </div>
           <div class="auth-login-form-footer">
             <van-button
@@ -31,6 +35,7 @@
               type="info"
               native-type="submit"
               size="normal"
+              click="onSubmit"
             >
               登录
             </van-button>
@@ -39,13 +44,18 @@
       </van-row>
     </div>
     <div class="auth-login-page-footer">
-      <p><router-link to="/auth/notice">《推广大使经销商协议》</router-link></p>
+      <p>
+        <router-link class="text-blue" to="/auth/notice"
+          >《推广大使经销商协议》</router-link
+        >
+      </p>
     </div>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
+import AuthApi from "@/api/auth";
 import { Col, Row, Form, Field, Button } from "vant";
 
 Vue.use(Col);
@@ -63,7 +73,30 @@ export default {
     };
   },
   methods: {
-    onSubmit() {},
+    onSubmit() {
+      const data = {
+        username: this.username,
+        password: this.password,
+      };
+      AuthApi.login(data)
+        .then((response) => {
+          if (process.env.VUE_APP_ENV === "local") {
+            console.log(response);
+          }
+          const data = {
+            name: response.data.name,
+            token: response.data.meta.token,
+            avatar: response.data.avatar,
+          };
+
+          this.$store.dispatch("login", data);
+        })
+        .catch((error) => {
+          if (process.env.VUE_APP_ENV === "local") {
+            console.log(error);
+          }
+        });
+    },
   },
 };
 </script>
@@ -82,7 +115,7 @@ export default {
 .auth-login-form-register-and-forget-password > p {
   padding-right: 1rem;
   text-align: right;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .auth-login-form-footer {
@@ -102,7 +135,7 @@ export default {
   width: 100%;
 }
 .auth-login-page-footer > p {
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
 }
 </style>

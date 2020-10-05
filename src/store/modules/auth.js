@@ -1,3 +1,5 @@
+import { setJsonWebToken, getJsonWebToken } from '@/utils/auth'
+
 export default {
     state: {
         name: null,
@@ -5,6 +7,12 @@ export default {
         avatar: null,
     },
     actions: {
+        login({ commit }, data) {
+            setJsonWebToken(data.token)
+            commit('SET_NAME', data.name)
+            commit("SET_TOKEN", getJsonWebToken())
+            commit('SET_AVATAR', data.avatar)
+        }
     },
     mutations: {
         SET_NAME: (state, name) => {

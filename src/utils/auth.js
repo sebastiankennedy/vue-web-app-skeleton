@@ -1,18 +1,18 @@
-import localStorage from './local-storage'
+import ls from './local-storage'
 import Cookies from 'js-cookie'
 
 const jsonWebTokenKey = 'json_web_token'
 
 export function getJsonWebToken() {
-    return localStorage.getItem(jsonWebTokenKey)
+    return ls.getItem(jsonWebTokenKey)
 }
 
 export function setJsonWebToken(token) {
-    return localStorage.setItem(jsonWebTokenKey, token)
+    return ls.setItem(jsonWebTokenKey, token)
 }
 
 export function removeJsonWebToken() {
-    return localStorage.removeItem(jsonWebTokenKey)
+    return ls.removeItem(jsonWebTokenKey)
 }
 
 const cookieToken = 'access_token'
