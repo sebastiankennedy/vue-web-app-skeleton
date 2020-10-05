@@ -31,4 +31,9 @@ export function resetRouter() {
     router.matcher = newRouter.matcher
 }
 
+// 返回上一步或返回指定路径
+export function goBack(path = ''){
+    window.history.length > 1 ? router.go(-1) : router.push(path)
+}
+
 export default router

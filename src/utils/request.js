@@ -8,7 +8,6 @@ const service = axios.create({
     baseURL: process.env.VUE_APP_URL,
     timeout: 10000
 })
-console.log(process.env)
 
 // 添加请求拦截器
 service.interceptors.request.use(config => {
@@ -21,14 +20,15 @@ service.interceptors.request.use(config => {
         config.headers['X-ACCESS-Token'] = getToken
     }
 
-    if (process.env.APP_ENV === 'local') {
-        console.log(config)
+    if (process.env.VUE_APP_ENV === 'local') {
+        console.log('HTTP 请求之前', config)
     }
+    store.dispatch('showLoadingToast')
 
     return config
 }, error => {
     // 处理请求错误
-    if (process.env.APP_ENV === 'local') {
+    if (process.env.VUE_APP_ENV === 'local') {
         console.log(error)
     }
 
@@ -42,16 +42,22 @@ service.interceptors.request.use(config => {
 })
 
 //  添加响应拦截器
-axios.interceptors.response.use(response => {
+service.interceptors.response.use(response => {
+    store.dispatch('hideLoadingToast')
+
     // 处理响应数据
-    if (process.env.APP_ENV === 'local') {
-        console.log(response)
+    if (process.env.VUE_APP_ENV === 'local') {
+        console.log('HTTP 响应之后', response)
+    }
+
+    if (response.status === 200) {
+        return response.data
     }
 
     return response
 }, error => {
     // 处理响应错误
-    if (process.env.APP_ENV === 'local') {
+    if (process.env.VUE_APP_ENV === 'local') {
         console.log(error)
     }
 
