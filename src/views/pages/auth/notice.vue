@@ -12,7 +12,7 @@
 
 <script>
 import Vue from "vue";
-import { goBack } from "@/utils";
+import { goBack } from "@/router";
 import configApi from "@/api/config";
 import { NavBar, Skeleton } from "vant";
 
@@ -64,9 +64,5 @@ export default {
   padding-bottom: 2rem;
   max-width: 100vw;
   height: 100%;
-}
-.auth-notice-rich-text-content > img,
-.auth-notice-rich-text-content > p > img {
-  max-width: 100%;
 }
 </style>
