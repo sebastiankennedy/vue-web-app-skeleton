@@ -22,7 +22,11 @@
             right-icon="bag-o"
           />
           <div class="auth-login-form-register-and-forget-password">
-            <p>忘记密码?</p>
+            <p>
+              <router-link class="text-blue" to="/auth/forget-password">
+                忘记密码?
+              </router-link>
+            </p>
             <p>
               暂无账号，去<router-link class="text-blue" to="/auth/register"
                 >注册</router-link
@@ -45,9 +49,9 @@
     </div>
     <div class="auth-login-page-footer">
       <p>
-        <router-link class="text-blue" to="/auth/notice"
-          >《推广大使经销商协议》</router-link
-        >
+        <router-link class="text-blue" to="/auth/notice">
+          《推广大使经销商协议》
+        </router-link>
       </p>
     </div>
   </div>

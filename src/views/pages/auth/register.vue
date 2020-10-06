@@ -41,7 +41,11 @@
               size="small"
               type="primary"
               native-type="button"
+              loading-type="spinner"
               v-on:click="sendCode"
+              v-bind:disabled="sendCodeDisabled"
+              v-bind:loading="sendCodeLoading"
+              v-bind:loading-text="sendCodeLoadingText"
             >
               发送验证码
             </van-button>
@@ -87,18 +91,42 @@ export default {
       password: null,
       code: null,
       key: null,
+      seconds: 60,
+      sendCodeDisabled: false,
+      sendCodeLoading: false,
+      sendCodeLoadingText: "60秒后可重发",
     };
   },
   methods: {
     sendCode() {
+      if (!this.phone) {
+        this.$toast.fail("手机号码不能为空");
+        return;
+      }
+
       const data = {
         phone: this.phone,
         template: "SMS_204160234",
       };
+
       authApi
         .sendCode(data)
         .then((response) => {
           this.key = response.data.key;
+          this.sendCodeLoading = true;
+          this.sendCodeDisabled = true;
+
+          let that = this;
+          let timer = setInterval(function () {
+            that.seconds--;
+            if (that.seconds === 0) {
+              that.seconds = 60;
+              that.sendCodeLoading = false;
+              that.sendCodeDisabled = false;
+              clearInterval(timer);
+            }
+            that.sendCodeLoadingText = that.seconds + "秒后可重发";
+          }, 1000);
         })
         .catch((error) => {
           console.log(error);
@@ -113,18 +141,20 @@ export default {
         key: this.key,
       };
 
-      authApi
-        .register(data)
-        .then((response) => {
-          const data = {
-            name: response.data.name,
-            token: response.data.meta.token,
-            avatar: response.data.avatar,
-          };
+      authApi.register(data).then((response) => {
+        if (process.env.VUE_APP_ENV === "local") {
+          console.log(response);
+        }
+        const data = {
+          name: response.data.name,
+          token: response.data.meta.token,
+          avatar: response.data.avatar,
+          expiredAt: response.data.meta.expired_at,
+        };
 
-          this.$store.dispatch("register", data);
-          this.$router.push("/home");
-        });
+        this.$store.dispatch("updateAuthInfo", data);
+        this.$router.push("/home");
+      });
     },
   },
 };

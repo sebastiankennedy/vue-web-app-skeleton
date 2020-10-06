@@ -5,20 +5,16 @@ export default {
         name: null,
         token: null,
         avatar: null,
+        expiredAt: null
     },
     actions: {
-        login({ commit }, data) {
+        updateAuthInfo({ commit }, data) {
             setJsonWebToken(data.token)
             commit('SET_NAME', data.name)
             commit("SET_TOKEN", getJsonWebToken())
             commit('SET_AVATAR', data.avatar)
+            commit('SET_EXPIRED_AT', data.expiredAt)
         },
-        register({ commit }, data) {
-            setJsonWebToken(data.token)
-            commit('SET_NAME', data.name)
-            commit("SET_TOKEN", getJsonWebToken())
-            commit('SET_AVATAR', data.avatar)
-        }
     },
     mutations: {
         SET_NAME: (state, name) => {
@@ -29,6 +25,9 @@ export default {
         },
         SET_AVATAR: (state, avatar) => {
             state.avatar = avatar
+        },
+        SET_EXPIRED_AT: (state, expiredAt) => {
+            state.expiredAt = expiredAt
         }
     },
     getters: {
@@ -40,6 +39,9 @@ export default {
         },
         getAvatar(state) {
             return state.avatar
+        },
+        getExpiredAt(state) {
+            return state.expiredAt
         }
     }
 }

@@ -2,7 +2,7 @@ const authRouter = [
     {
         name: 'auth.login',
         path: '/auth/login',
-        component: () => import('@/views/pages/auth/login.vue'),
+        component: () => import('@/views/pages/auth/login'),
         meta: { title: '登录' }
     },
     {
