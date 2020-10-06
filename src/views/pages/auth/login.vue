@@ -90,7 +90,7 @@ export default {
           };
 
           this.$store.dispatch("login", data);
-          this.$router.push('/home');
+          this.$router.push("/home");
         })
         .catch((error) => {
           if (process.env.VUE_APP_ENV === "local") {
@@ -126,8 +126,8 @@ export default {
 }
 
 .auth-login-submit-button {
-  width: 100px;
-  height: 30px;
+  width: 6rem;
+  height: 2rem;
   border-radius: 5px;
 }
 .auth-login-page-footer {

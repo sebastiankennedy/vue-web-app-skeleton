@@ -12,6 +12,12 @@ export default {
             commit('SET_NAME', data.name)
             commit("SET_TOKEN", getJsonWebToken())
             commit('SET_AVATAR', data.avatar)
+        },
+        register({ commit }, data) {
+            setJsonWebToken(data.token)
+            commit('SET_NAME', data.name)
+            commit("SET_TOKEN", getJsonWebToken())
+            commit('SET_AVATAR', data.avatar)
         }
     },
     mutations: {

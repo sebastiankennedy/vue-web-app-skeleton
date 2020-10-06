@@ -18,6 +18,8 @@ service.interceptors.request.use(config => {
         config.headers['X-ACCESS-Token'] = getToken()
     }
 
+    // 添加 Ajax 首部
+    config.headers['X-Requested-With'] = 'XMLHttpRequest'
     if (process.env.VUE_APP_ENV === 'local') {
         console.log('HTTP 请求之前', config)
     }

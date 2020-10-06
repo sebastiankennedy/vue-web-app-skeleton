@@ -29,6 +29,14 @@ export default {
             method: 'post',
             data
         })
+    },
+
+    sendCode: function (data) {
+        return request({
+            url: '/verification-codes',
+            method: 'post',
+            data
+        })
     }
 }
 
