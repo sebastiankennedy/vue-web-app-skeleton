@@ -93,7 +93,7 @@ export default {
             avatar: response.data.avatar,
           };
 
-          this.$store.dispatch("login", data);
+          this.$store.dispatch("updateAuthInfo", data);
           this.$router.push("/home");
         })
         .catch((error) => {

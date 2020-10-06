@@ -37,6 +37,14 @@ export default {
             method: 'post',
             data
         })
+    },
+
+    changePassword: function (data) {
+        return request({
+            url: '/auth/change-password',
+            method: 'patch',
+            data
+        })
     }
 }
 

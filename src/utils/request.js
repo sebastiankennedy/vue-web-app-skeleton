@@ -64,6 +64,7 @@ service.interceptors.response.use(response => {
             forbidClick: true,
             duration: 3000,
         })
+        return;
     }
 
     return response

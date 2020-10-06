@@ -23,7 +23,7 @@
           type="password"
           name="密码"
           label="密码"
-          placeholder="密码"
+          placeholder="请输入新的密码"
           :rules="[{ required: true, message: '请输入密码' }]"
           class="mb-1"
         />
@@ -86,15 +86,15 @@ Vue.use(Button);
 export default {
   data() {
     return {
+      key: null,
+      code: null,
       phone: null,
       id_no: null,
       password: null,
-      code: null,
-      key: null,
-      seconds: 60,
+      seconds: 90,
       sendCodeDisabled: false,
       sendCodeLoading: false,
-      sendCodeLoadingText: "60秒后可重发",
+      sendCodeLoadingText: "90秒后可重发",
     };
   },
   methods: {
@@ -120,7 +120,7 @@ export default {
           let timer = setInterval(function () {
             that.seconds--;
             if (that.seconds === 0) {
-              that.seconds = 60;
+              that.seconds = 90;
               that.sendCodeLoading = false;
               that.sendCodeDisabled = false;
               clearInterval(timer);
