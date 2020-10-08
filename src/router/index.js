@@ -26,10 +26,16 @@ const router = createRouter()
 
 // 添加路由守卫
 router.beforeEach((to, from, next) => {
+    if (to.matched.length === 0) {
+        if (getJsonWebToken() || getToken()) {
+            next({ 'path': '/' })
+        } else {
+            next({ 'path': '/auth/login' })
+        }
+    }
+
     if (to.meta.requireAuth) {
-        if (getJsonWebToken()) {
-            next();
-        } else if (getToken()) {
+        if (getJsonWebToken() || getToken()) {
             next();
         } else {
             next({

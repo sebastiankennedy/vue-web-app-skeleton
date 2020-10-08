@@ -9,7 +9,7 @@ export default {
     },
     actions: {
         showLoadingToast({ commit }) {
-            if (store.getters.getHttpRequestCount === 0 ) {
+            if (store.getters.getHttpRequestCount === 0) {
                 const loadingToast = Toast.loading({
                     duration: 0,
                     forbidClick: true,
